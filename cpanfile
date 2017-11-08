@@ -1,3 +1,5 @@
+requires 'perl', '5.010';
+
 requires 'Coro' => '6.514';
 
 on test => sub {
