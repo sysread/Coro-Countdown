@@ -58,11 +58,7 @@ sub up    { ++$_[0][0] }
 
 sub join  {
   my $self = shift;
-
-  if ($self->count == 0) {
-    return;
-  }
-
+  return if $self->count == 0;
   $self->[1]->wait;
 }
 
