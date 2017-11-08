@@ -22,16 +22,19 @@ subtest 'up/down' => sub {
 
 subtest 'signal' => sub {
   my $counter = new Coro::Countdown;
+  $counter->up for 1 .. 3;
 
   my $cv   = AE::cv;
   my $cons = async { $counter->join; $cv->send('sent') };
-  my $prod = async { $counter->up for 1 .. 3; $counter->down for 1 .. 3; };
+  my $prod = async { $counter->down for 1 .. 3; };
+
   is $cv->recv, 'sent', 'signaled';
 
   subtest 'reuse' => sub {
+    $counter->up for 1 .. 3;
     my $cv   = AE::cv;
     my $cons = async { $counter->join; $cv->send('sent') };
-    my $prod = async { $counter->up for 1 .. 3; $counter->down for 1 .. 3; };
+    my $prod = async { $counter->down for 1 .. 3; };
     is $cv->recv, 'sent', 'signaled';
   };
 };
