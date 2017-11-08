@@ -4,11 +4,11 @@
   use Coro::Countdown;
 
   my $counter = Coro::Countdown->new;
-  $counter->inc;
+  $counter->up;
   
-  async { $counter->dec };
+  async { $counter->down };
 
-  # Block until $counter->dec is called
+  # Block until $counter->down is called
   $counter->join;
 
 =head1 DESCRIPTION
